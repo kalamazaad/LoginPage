@@ -1,0 +1,64 @@
+
+.login{
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #9cf0d7, #f4c8e1);
+    display: flex;
+}
+.login .leftpanel{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: rgb(12, 12, 12);
+    width: 400px;
+}
+.login .rightpanel{
+    flex: 1;
+    display: flex;
+    justify-content: center;    
+    align-items: center;
+}
+.login .rightpanel .card{
+    width: 300px;
+    padding: 20px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    border-radius: 10px;
+}
+.login .rightpanel .card input{
+    width: 100%;
+    height: 30px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+.login .rightpanel .card input:focus{
+    border: 1px solid #667eea;
+}
+.login .rightpanel .card button{
+    width: 100%;
+    height: 35px;
+    border: none;
+    border-radius: 3px;
+    background: #667eea;
+    color: white;
+    cursor: pointer;
+}
+.login .rightpanel .card button:hover{
+    background: #3557ef;
+}
+.login .leftpanel h1{
+    font-size: 36px;
+    margin-bottom: 5px;
+}
+.login .leftpanel p{
+    font-size: 24px;
+}
+.login .rightpanel p span{
+    color: dodgerblue;
+    cursor: pointer;
+}
