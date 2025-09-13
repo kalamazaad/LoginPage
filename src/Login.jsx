@@ -5,10 +5,42 @@ import './Login.css';
 class Login extends Component {
      constructor(){
             super();
-            this.state={signup:false};
+            this.state={signup:false, signupData:{
+                firstName:'',
+                lastName:'',
+                emailId:'', 
+                phone:'',
+                password:'',
+                confirmPassword:''
+            }, errData:""};
         }
+
+        handleSignupInput(e){
+            this.setState({signupData:{...this.state.signupData, [e.target.name]:e.target.value}});
+        }
+
+        validateSignup(){
+            const{signupData}=this.state;
+            const err={};
+            if(!signupData.firstName.trim()) err.firstName="First Name is required";
+            if(!signupData.lastName.trim()) err.lastName="Last Name is required";
+            if(!signupData.emailId.trim()) err.emailId="Email is required";
+            if(!signupData.phone.trim()) err.phone="Phone No is required";
+            if(!signupData.password.trim()) err.password="Password is required";
+            if(signupData.confirmPassword.length < 8) err.confirmPassword="Confirm Password is required";
+            if(signupData.password!==signupData.confirmPassword) err.confirmPassword="Password and Confirm Password should be same";
+            this.setState({errData:err});
+            return Object.keys(err).length===0;
+        }
+
+        registerUser(){
+            if(!this.validateSignup())
+                return;
+            alert("Registered Successfully");
+        }
+//... spread operator
     render() {
-        const{signup}=this.state;
+        const{signup, signupData, errData}=this.state;
         return (
             <div className='login'>
                 <div className='leftpanel'>
@@ -30,18 +62,18 @@ class Login extends Component {
                             <button className='close' onClick={()=>this.setState({signup:false})}>X</button>
                             <h2>Create an account</h2>
                             <label>First Name </label>
-                            <input type='text' placeholder='First Name' />
+                            <input type='text' placeholder='First Name' name='firstName' value={signupData.firstName} onChange={(e)=>this.handleSignupInput(e)} autoComplete='off' style={(!errData.firstName ? {} : {"border" : "1px solid red"})}/>
                             <label>Last Name </label>
-                            <input type='text' placeholder='Last Name' />
+                            <input type='text' placeholder='Last Name' name='lastName' value={signupData.lastName} onChange={(e)=>this.handleSignupInput(e)} autoComplete='off' style={(!errData.lastName ? {} : {"border" : "1px solid red"})}/>
                             <label>Email </label>
-                            <input type='text' placeholder='Email' />
+                            <input type='email' placeholder='Email' name='emailId' value={signupData.emailId} onChange={(e)=>this.handleSignupInput(e)} autoComplete='off' style={(!errData.emailId ? {} : {"border" : "1px solid red"})}/>
                             <label>Phone No </label>
-                            <input type='text' placeholder='Phone No' />
+                            <input type='text' placeholder='Phone No' name='phone' value={signupData.phone} onChange={(e)=>this.handleSignupInput(e)} autoComplete='off' style={(!errData.phone ? {} : {"border" : "1px solid red"})}/>
                             <label>Password </label>
-                            <input type='password' placeholder='Password' />
+                            <input type='password' placeholder='Password' name='password' value={signupData.password} onChange={(e)=>this.handleSignupInput(e)} autoComplete='off' style={(!errData.password ? {} : {"border" : "1px solid red"})}/>
                             <label>Confirm Password </label>
-                            <input type='Confirm password' placeholder='Confirm Password' />
-                            <button className='register'>Sign Up</button>
+                            <input type='Confirm password' placeholder='Confirm Password' name='confirmPassword' value={signupData.confirmPassword} onChange={(e)=>this.handleSignupInput(e)} autoComplete='off' style={(!errData.confirmPassword ? {} : {"border" : "1px solid red"})}/>
+                            <button className='register' onClick={()=>this.registerUser()}>Sign Up</button>
                         </div>
                     </div>
                 }
