@@ -1,7 +1,6 @@
-
-
 import React, { Component } from 'react';
 import './Login.css';
+import { BASEURL, callApi } from './lib';
 class Login extends Component {
      constructor(){
             super();
@@ -13,6 +12,8 @@ class Login extends Component {
                 password:'',
                 confirmPassword:''
             }, errData:""};
+            this.signupResponse=this.signupResponse.bind(this);
+            // this.registerUser=this.registerUser.bind(this);
         }
 
         handleSignupInput(e){
@@ -36,9 +37,37 @@ class Login extends Component {
         registerUser(){
             if(!this.validateSignup())
                 return;
-            alert("Registered Successfully");
+
+            let data=JSON.stringify({
+                firstName:this.state.signupData.firstName,
+                lastName:this.state.signupData.lastName,
+                emailId:this.state.signupData.emailId,
+                phone:this.state.signupData.phone,
+                password:this.state.signupData.password 
+            });
+
+            callApi("POST", BASEURL+"signup", data, this.signupResponse)
+
+            // alert(data);
+            // alert("Registered Successfully");
         }
+
 //... spread operator
+        signupResponse(res){
+            let rdata=JSON.parse(res);
+            alert(rdata);
+
+            this.setState({signupData:{
+                firstName:'',
+                lastName:'',
+                emailId:'', 
+                phone:'',
+                password:'',
+                confirmPassword:''
+            },signup:null});
+            //alert(res);
+        }
+
     render() {
         const{signup, signupData, errData}=this.state;
         return (
@@ -72,7 +101,7 @@ class Login extends Component {
                             <label>Password </label>
                             <input type='password' placeholder='Password' name='password' value={signupData.password} onChange={(e)=>this.handleSignupInput(e)} autoComplete='off' style={(!errData.password ? {} : {"border" : "1px solid red"})}/>
                             <label>Confirm Password </label>
-                            <input type='Confirm password' placeholder='Confirm Password' name='confirmPassword' value={signupData.confirmPassword} onChange={(e)=>this.handleSignupInput(e)} autoComplete='off' style={(!errData.confirmPassword ? {} : {"border" : "1px solid red"})}/>
+                            <input type='password' placeholder='Confirm Password' name='confirmPassword' value={signupData.confirmPassword} onChange={(e)=>this.handleSignupInput(e)} autoComplete='off' style={(!errData.confirmPassword ? {} : {"border" : "1px solid red"})}/>
                             <button className='register' onClick={()=>this.registerUser()}>Sign Up</button>
                         </div>
                     </div>
